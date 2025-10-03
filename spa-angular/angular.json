@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json.schemastore.org/angular.json",
+  "version": 1,
+  "projects": {
+    "pwm-spa-angular": {
+      "projectType": "application",
+      "root": "",
+      "sourceRoot": "src",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist",
+            "index": "src/index.html",
+            "main": "src/main.ts",
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
+            "styles": [
+              "src/styles.css"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "pwm-spa-angular:build"
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "pwm-spa-angular"
+}

@@ -1,0 +1,10 @@
+{
+  "name": "pwm-worker",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "amqplib": "^0.10.3",
+    "node-fetch": "^3.3.2",
+    "nodemailer": "^6.9.14"
+  }
+}

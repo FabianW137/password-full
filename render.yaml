@@ -1,0 +1,71 @@
+services:
+  - type: web
+    name: pwm-backend
+    env: docker
+    rootDir: backend
+    dockerfilePath: ./backend/Dockerfile
+    envVars:
+      - key: JWT_SECRET
+        generateValue: true
+      - key: APP_ENCRYPTION_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: pwm-postgres
+          property: connectionString
+      - key: JDBC_DATABASE_USERNAME
+        fromDatabase:
+          name: pwm-postgres
+          property: user
+      - key: JDBC_DATABASE_PASSWORD
+        fromDatabase:
+          name: pwm-postgres
+          property: password
+      - key: RABBITMQ_URL
+        fromService:
+          name: pwm-rabbit
+          type: web
+          property: hostPort
+
+  - type: web
+    name: pwm-spa-angular
+    env: docker
+    rootDir: spa-angular
+    dockerfilePath: ./spa-angular/Dockerfile
+
+  - type: web
+    name: pwm-mpa
+    env: docker
+    rootDir: mpa
+    dockerfilePath: ./mpa/Dockerfile
+    envVars:
+      - key: BACKEND_URL
+        fromService:
+          name: pwm-backend
+          type: web
+          property: hostPort
+
+  - type: background
+    name: pwm-worker
+    env: docker
+    rootDir: worker
+    dockerfilePath: ./worker/Dockerfile
+    envVars:
+      - key: RABBITMQ_URL
+        fromService:
+          name: pwm-rabbit
+          type: web
+          property: hostPort
+      - key: RABBITMQ_QUEUE
+        value: pwm.checks
+
+  - type: web
+    name: pwm-rabbit
+    env: docker
+    rootDir: rabbitmq
+    dockerfilePath: ./rabbitmq/Dockerfile
+    plan: starter
+
+databases:
+  - name: pwm-postgres
+    plan: starter
