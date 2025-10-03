@@ -1,0 +1,38 @@
+services:
+  - type: web
+    name: pwm-backend
+    env: docker
+    rootDir: backend
+    dockerfilePath: ./backend/Dockerfile
+
+  - type: background
+    name: pwm-worker
+    env: docker
+    rootDir: worker
+    dockerfilePath: ./worker/Dockerfile
+
+  - type: web
+    name: pwm-spa
+    env: docker
+    rootDir: spa
+    dockerfilePath: ./spa/Dockerfile
+
+  - type: web
+    name: pwm-mpa
+    env: docker
+    rootDir: mpa
+    dockerfilePath: ./mpa/Dockerfile
+
+  - type: web
+    name: pwm-rabbit
+    env: docker
+    plan: starter
+    rootDir: rabbitmq
+    dockerfilePath: ./rabbitmq/Dockerfile
+
+databases:
+  - name: pwm-postgres
+    plan: starter
+
+redis:
+  - name: pwm-redis
